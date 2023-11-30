@@ -17,7 +17,7 @@ goDB is a lightweight, pure-Go implementation of a persistent key-value storage 
 
 - **main.go:** The entry point of the application. Initializes the database, recovers from Write-Ahead Log if needed, and starts an HTTP server.
 - **db.go:** Defines the core database structure (`fileDB`) implementing the `DB` interface. Manages the Memtable, Write-Ahead Log (WAL), and provides functions for basic database operations like `Set`, `Get`, and `Del`. Also includes the initialization of the database (`newDB` function).
-- **operations.go:** Defines core database operations like `set`, `get`, and `del`. Handles interactions with the Memtable and triggers flushing to disk when necessary.
+- **operations.go:** Defines core database operations like `Set`, `Get`, and `Del`. Handles interactions with the Memtable and triggers flushing to disk when necessary.
 - **serialization.go:** Provides functions for converting key-value pairs to byte slices and vice versa. Handles the serialization and deserialization of data for storage and retrieval.
 - **wal.go:** Manages Write-Ahead Logging, including functions for appending key-value entries to the Write-Ahead Log and recovering from the log during startup.
 - **data_maintenance.go:** Handles data maintenance tasks such as flushing Memtable to disk, compacting SST files, and recovering from crashes during these operations.
