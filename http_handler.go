@@ -51,18 +51,18 @@ func handleSet(resp http.ResponseWriter, req *http.Request, db *fileDB) {
 	}
 
 	key, ok := data["key"]
-	if !ok {
+	if !ok || key == "" {
 		http.Error(resp, "Key parameter is missing", http.StatusBadRequest)
 		return
 	}
 
 	value, ok := data["value"]
-	if !ok {
+	if !ok || value == "" {
 		http.Error(resp, "Value parameter is missing", http.StatusBadRequest)
 		return
 	}
 
-	if err := db.Set(key, []byte(value)); err != nil { // TODO: Check whether []byte can be passed in Set
+	if err := db.Set(key, []byte(value)); err != nil {
 		http.Error(resp, fmt.Sprintf("Error setting key: %s", err), http.StatusInternalServerError)
 		return
 	}
