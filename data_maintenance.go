@@ -16,17 +16,14 @@ import (
 // It also triggers compaction if the number of SST files exceeds a specified limit.
 // Returns any encountered error during the process.
 func (mem *fileDB) flush() error {
+	buffer := writeToBuffer(mem.values, true)
+	compressedData, _ := compress(buffer.Bytes())
+	// Create the SST file
 	sstFileName := fmt.Sprintf(sstFileName, strconv.FormatInt(time.Now().UnixNano(), 10))
 	sstFile, err := os.Create(sstFileName)
 	if err != nil {
 		return err
 	}
-	// defer sstFile.Close()
-
-	buffer := writeToBuffer(mem.values, true)
-
-	// Compression Marker
-	compressedData, _ := compress(buffer.Bytes())
 	// Write the entire buffer to the file in a single operation
 	if _, err := sstFile.Write(compressedData); err != nil {
 		return err
@@ -121,9 +118,6 @@ func compact(matchingFiles []string) error {
 			}
 
 		}
-		if err := os.Remove(file); err != nil {
-			return err
-		}
 	}
 
 	buffer := writeToBuffer(tmp, false)
@@ -139,6 +133,12 @@ func compact(matchingFiles []string) error {
 	// Write the entire buffer to the file in a single operation
 	if _, err := sstFile.Write(compressedData); err != nil {
 		return err
+	}
+
+	for _, file := range matchingFiles {
+		if err := os.Remove(file); err != nil {
+			return err
+		}
 	}
 
 	return nil
