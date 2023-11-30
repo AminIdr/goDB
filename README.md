@@ -20,7 +20,7 @@ Follow these steps to get started with goDB:
 
 ##  Overall Architecture
 
-![goDB Architecture](https://github.com/AminIdr/goDB/blob/main/KV%20Architecture.png?raw=true)
+![goDB Architecture](https://github.com/AminIdr/goDB/blob/main/images/KV%20Architecture.png?raw=true)
 
 The goDB architecture enables users to interact with the application API through HTTP GET and POST requests. When a user performs a set or delete operation on a key, the operation is logged in both the in-memory table (memtable) and the Write-Ahead Log (WAL) before returning an OK status to the user.
 
@@ -32,11 +32,11 @@ This architecture ensures both durability and efficient retrieval of key/value p
 
 ##  SST File Format
 
-![goDB Architecture](https://github.com/AminIdr/goDB/blob/main/SST%20File%20Format.png?raw=true)
+![goDB Architecture](https://github.com/AminIdr/goDB/blob/main/images/SST%20File%20Format.png)
 
 ##  Key-Value Entry Format
 
-![goDB Architecture](https://github.com/AminIdr/goDB/blob/main/Entry%20Format.png?raw=true)
+![goDB Architecture](https://github.com/AminIdr/goDB/blob/main/images/Entry%20Format.png?raw=true)
 ## Usage
 To set a key to a value, you can run the following command in Windows command line:
 
