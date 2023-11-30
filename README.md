@@ -21,7 +21,7 @@ goDB is a lightweight, pure-Go implementation of a persistent key-value storage 
 - **operations.go:** Defines core database operations like `Set`, `Get`, and `Del`. Handles interactions with the Memtable and triggers flushing to disk when necessary.
 - **serialization.go:** Provides functions for converting key-value pairs to byte slices and vice versa. Handles the serialization and deserialization of data for storage and retrieval.
 - **wal.go:** Manages Write-Ahead Logging, including functions for appending key-value entries to the Write-Ahead Log and recovering from the log during startup.
-- **data_maintenance.go:** Handles data maintenance tasks such as flushing Memtable to disk, compacting SST files, and recovering from crashes during these operations.
+- **data_maintenance.go:** Handles data maintenance tasks such as flushing Memtable to disk and compacting SST files.
 - **compression.go:** Provides functions for compressing and decompressing data, using gzip compression for storage efficiency.
 - **http_handler.go:** Defines HTTP handler functions for various endpoints (`/get`, `/set`, `/del`). Parses incoming requests, calls corresponding database operations, and sends responses.
 
@@ -53,11 +53,12 @@ This architecture ensures both durability and efficient retrieval of key/value p
 
 ## Recovery Mechanism
 
-In the event of a system crash or unexpected termination, goDB employs a robust recovery mechanism to ensure data consistency and integrity.
+In the event of a system crash or unexpected termination, goDB employs a recovery mechanism to ensure data consistency and integrity.
 
 ### Recovery during Memtable Flushing
 
-When the system crashes during the process of flushing the memtable to an SST file, the Write-Ahead Logging (WAL) file remains intact. Upon restarting the program, the first check involves examining the existence of the WAL file. If present, it indicates a previous crash. The recovery process involves reading entries from the WAL and populating the memtable. Once the flushing operation is successfully completed, the WAL file is automatically deleted.
+When the system crashes during the process of flushing the memtable to an SST file, the Write-Ahead Logging (WAL) file remains intact. Upon restarting the program, the first check involves examining the existence of the WAL file. If present, it indicates a previous crash. The recovery process involves reading entries from the WAL and populating the memtable.
+Once the flushing operation is successfully completed, the WAL file is automatically deleted.
 
 ### Recovery during Compaction
 
