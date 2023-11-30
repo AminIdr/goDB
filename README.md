@@ -37,6 +37,24 @@ This architecture ensures both durability and efficient retrieval of key/value p
 ##  Key-Value Entry Format
 
 ![goDB Architecture](https://github.com/AminIdr/goDB/blob/main/images/Entry%20Format.png?raw=true)
+
+## Recovery Mechanism
+
+In the event of a system crash or unexpected termination, goDB employs a robust recovery mechanism to ensure data consistency and integrity.
+
+### Recovery during Memtable Flushing
+
+When the system crashes during the process of flushing the memtable to an SST file, the Write-Ahead Logging (WAL) file remains intact. Upon restarting the program, the first check involves examining the existence of the WAL file. If present, it indicates a previous crash. The recovery process involves reading entries from the WAL and populating the memtable. Once the flushing operation is successfully completed, the WAL file is automatically deleted.
+
+### Recovery during Compaction
+
+In each flush operation, after writing to a new SST file, goDB monitors the total number of SST files. If the count surpasses a predefined threshold (referred to as `compactingSize`), a compaction process is triggered. This involves merging the corresponding SST files into a single, larger SST file, ensuring data integrity and reducing redundancy.
+
+In the event of a system crash during the compaction process, the remaining SST files are guaranteed to be intact. The compaction process is designed as a simulation, creating a new treemap by merging the oldest to newest SST files. This new treemap is then written to a buffer and subsequently to the newly compacted SST file in an atomic operation. Finally, the old SST files are removed. This approach guarantees that if a crash occurs during compaction, the old SST files remain present, maintaining the overall consistency of the data store.
+
+By incorporating these recovery mechanisms, goDB ensures resilience and consistency in the face of unexpected failures.
+
+
 ## Usage
 To set a key to a value, you can run the following command in Windows command line:
 
