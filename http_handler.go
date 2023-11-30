@@ -71,7 +71,7 @@ func handleSet(resp http.ResponseWriter, req *http.Request, db *fileDB) {
 }
 
 // handleDelete is an HTTP handler function for the "/del" endpoint.
-// Deletes a key-value pair from the Memtable and writes the result to the response.
+// Deletes a key-value pair and writes the result to the response.
 func handleDelete(resp http.ResponseWriter, req *http.Request, db *fileDB) {
 	key := req.URL.Query().Get("key")
 	if key == "" {

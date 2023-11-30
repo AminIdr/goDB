@@ -35,10 +35,10 @@ func TestSetGetDel(t *testing.T) {
 		t.Fatalf("Expected deleted value %s, got %s", value, deletedValue)
 	}
 
-	// Edge case 1: Get from an empty database
+	// Edge case 1: Get an inexistant key
 	emptyValue, err := db.Get("nonexistent_key")
 	if err == nil || emptyValue != nil {
-		t.Fatal("Expected error getting nonexistent key from an empty database")
+		t.Fatal("Expected error getting nonexistent key")
 	}
 
 	// Edge case 2: Delete nonexistent key
