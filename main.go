@@ -13,7 +13,7 @@ const (
 	sstFileName    = "db_%s.sst"
 	magicNumber    = 1234
 	version        = uint16(1)
-	memLimit       = 100
+	memLimit       = 10
 	compactingSize = 5
 )
 

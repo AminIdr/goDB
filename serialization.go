@@ -17,12 +17,12 @@ func kvToEntry(key string, val value) []byte {
 	entry := append(keyLength, []byte(key)...)
 
 	flag := val.flag
-	// If it's a delete operation, store flag, key length, key
+	// If it's a delete operation, store: flag, key length, key
 	if flag == del {
 		res := append([]byte{flag}, entry...)
 		return res
 	}
-	// Otherwise, is it's a set operation, store flag, key length, key, value length, value
+	// Otherwise, store: flag, key length, key, value length, value
 	valueLength := make([]byte, 4) // 4 bytes for the value length
 	binary.LittleEndian.PutUint32(valueLength, uint32(len(val.val)))
 	entry = append(entry, valueLength...)
