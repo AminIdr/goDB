@@ -42,9 +42,13 @@ This architecture ensures both durability and efficient retrieval of key/value p
 
 ![goDB Architecture](https://github.com/AminIdr/goDB/blob/main/images/SST%20File%20Format.png)
 
-##  Key-Value Entry Format
+##  Set Entry Format
 
-![goDB Architecture](https://github.com/AminIdr/goDB/blob/main/images/Entry%20Format.png?raw=true)
+![goDB Architecture](https://github.com/AminIdr/goDB/blob/main/images/Set.png?raw=true)
+
+##  Delete Entry Format
+
+![goDB Architecture](https://github.com/AminIdr/goDB/blob/main/images/Del.png?raw=true)
 
 ## Recovery Mechanism
 
