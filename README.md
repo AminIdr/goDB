@@ -86,4 +86,11 @@ Follow these steps to get started with goDB:
 ### Delete a Key
 `curl http://localhost:8080/del?key=yourKey`
 
+## Testing the Program
 
+To test the program, execute the commands in `commands.txt`. This file contains 200 queries, organized as follows:
+
+- 50 queries for setting keys.
+- 50 queries for getting keys.
+- 50 queries for deleting keys.
+- 50 queries for getting keys again.
