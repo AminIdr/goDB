@@ -4,18 +4,26 @@ goDB is a simple, persistent key/value store written in Golang for learning purp
 
 ## Overview
 
-goDB is designed to provide a basic understanding of key concepts in database storage, such as LSM Tree principles, memtable, and SST files. It serves as a practical educational tool for exploring the fundamentals of building a storage engine.
+goDB is a lightweight, pure-Go implementation of a persistent key-value storage engine inspired by the Log-Structured Merge (LSM) Tree concepts. It serves as a practical educational tool for exploring the fundamentals of building a storage engine.
 
 ## Features
 
-- **Pure Go Implementation:** Written entirely in Go, making it easy to understand and modify for learning purposes.
-- **Key/Value Storage:** Provides a straightforward interface for storing and retrieving key/value pairs.
-- **Persistence:** Utilizes LSM Tree concepts to ensure data persistence between program runs.
-- **Educational Focus:** Designed with simplicity and clarity to aid learning about storage engine fundamentals.
+- **LSM Tree Architecture:** Leveraging the principles of LSM Trees for efficient storage and retrieval of key-value pairs.
+- **Write-Ahead Logging (WAL):** Implements a WAL mechanism to ensure durability and recoverability in the face of crashes.
+- **SST File Management:** Stores data in SST (Sorted String Table) files, with automatic compaction to maintain optimal performance.
+- **HTTP API:** Provides a basic HTTP API for interacting with the key-value store, supporting GET, SET, and DELETE operations.
 
-## Getting Started
+## Project Structure
 
-Follow these steps to get started with goDB:
+- **main.go:** The entry point of the application. Initializes the database, recovers from Write-Ahead Log if needed, and starts an HTTP server.
+- **db.go:** Defines the core database structure (`fileDB`) implementing the `DB` interface. Manages the Memtable, Write-Ahead Log (WAL), and provides functions for basic database operations like `Set`, `Get`, and `Del`. Also includes the initialization of the database (`newDB` function).
+- **operations.go:** Defines core database operations like `set`, `get`, and `del`. Handles interactions with the Memtable and triggers flushing to disk when necessary.
+- **serialization.go:** Provides functions for converting key-value pairs to byte slices and vice versa. Handles the serialization and deserialization of data for storage and retrieval.
+- **wal.go:** Manages Write-Ahead Logging, including functions for appending key-value entries to the Write-Ahead Log and recovering from the log during startup.
+- **data_maintenance.go:** Handles data maintenance tasks such as flushing Memtable to disk, compacting SST files, and recovering from crashes during these operations.
+- **compression.go:** Provides functions for compressing and decompressing data, using gzip compression for storage efficiency.
+- **http_handler.go:** Defines HTTP handler functions for various endpoints (`/get`, `/set`, `/del`). Parses incoming requests, calls corresponding database operations, and sends responses.
+
 
 
 ##  Overall Architecture
@@ -54,16 +62,23 @@ In the event of a system crash during the compaction process, the remaining SST 
 
 By incorporating these recovery mechanisms, goDB ensures resilience and consistency in the face of unexpected failures.
 
+## Getting Started
 
-## Usage
-To set a key to a value, you can run the following command in Windows command line:
+Follow these steps to get started with goDB:
 
+1. Clone the repository: `git clone https://github.com/AminIdr/goDB.git`
+2. Build and run the project: `go run .`
+
+
+## Interact with the Database using Windows cmd
+
+### Set a Key-Value Pair
 `curl -X POST -H "Content-Type: application/json" -d "{\"key\": \"yourKey\", \"value\": \"yourValue\"}" http://localhost:8080/set`
 
-To delete a key, you can run the following command in Windows command line:
+### Get the Value for a Key
+`curl http://localhost:8080/get?key=yourKey`
 
+### Delete a Key
 `curl http://localhost:8080/del?key=yourKey`
 
-To get a key, you can use the following command in Windows:
 
-`curl http://localhost:8080/get?key=yourKey`
