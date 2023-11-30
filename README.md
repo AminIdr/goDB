@@ -11,6 +11,7 @@ goDB is a lightweight, pure-Go implementation of a persistent key-value storage 
 - **LSM Tree Architecture:** Leveraging the principles of LSM Trees for efficient storage and retrieval of key-value pairs.
 - **Write-Ahead Logging (WAL):** Implements a WAL mechanism to ensure durability and recoverability in the face of crashes.
 - **SST File Management:** Stores data in SST (Sorted String Table) files, with automatic compaction to maintain optimal performance.
+- **SST File Compression:** Used gzip compression for SST files, effectively saving storage space.
 - **HTTP API:** Provides a basic HTTP API for interacting with the key-value store, supporting GET, SET, and DELETE operations.
 
 ## Project Structure
